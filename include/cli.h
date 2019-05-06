@@ -45,23 +45,32 @@ typedef struct CLI_command
 }
 CLI_command;
 
+typedef struct cli
+{
+	unsigned _size;
+	CLI_command *_commands;
+	// TODO: history queue
+}
+cli;
+
 /**
  * @brief initiates the CLI parser and history queue.
  * 
  * @param size maximum number of different commands to parse
- * @return non-zero if the function failed, otherwise zero
+ * @return a pointer to the CLI's handle, or a null pointer if the function failed
  */
-int CLI_Init(unsigned size);
+cli *CLI_Init(unsigned size);
 
 /**
  * @brief defines a new command that the CLI can execute.
  * 
+ * @param cli the CLI's handle
  * @param name the command's name as a null-terminated string
  * @param callback a callback function to execute when the command is executed
- * @return a pointer to the newly defined command's data structure, or a null pointer of the function failed
+ * @return a pointer to the newly defined command's data structure, or a null pointer if the function failed
  * @see CLI_command
  */
-CLI_command *CLI_AddCommand(const char name[CLI_COMMAND_NAME_MAX], CLI_commandCallback callback);
+CLI_command *CLI_AddCommand(cli *cli, const char name[CLI_COMMAND_NAME_MAX], CLI_commandCallback callback);
 
 /**
  * @brief adds a new parameter to a defined command.
@@ -94,6 +103,6 @@ char *CLI_GetCommand(void);
  * @return a relevant error code if an error occurred, of CLI_ERROR_OK if the function succeeded.
  * @see CLI_errorCode
  */
-CLI_errorCode CLI_Parse(const char *command);
+CLI_errorCode CLI_Parse(cli *cli, const char *command);
 
 #endif // _CLI_H
