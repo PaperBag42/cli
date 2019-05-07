@@ -40,7 +40,7 @@ typedef struct CLI_command
 {
 	char name[CLI_COMMAND_NAME_MAX]; /**< the name that will be used to identify the command when parsing */
 	char *help; /**< a description of what the command does */
-	unsigned numberOfParameters; /**< the number of parameters the command accepts */
+	unsigned nParameters; /**< the number of parameters the command accepts */
 	CLI_commandCallback func; /**< callback function to execute after parsing the command. */
 }
 CLI_command;
@@ -66,11 +66,11 @@ cli *CLI_Init(unsigned size);
  * 
  * @param cli the CLI's handle
  * @param name the command's name as a null-terminated string
- * @param callback a callback function to execute when the command is executed
+ * @param func a callback function to execute when the command is executed
  * @return a pointer to the newly defined command's data structure, or a null pointer if the function failed
  * @see CLI_command
  */
-CLI_command *CLI_AddCommand(cli *cli, const char name[CLI_COMMAND_NAME_MAX], CLI_commandCallback callback);
+CLI_command *CLI_AddCommand(cli *cli, const char name[CLI_COMMAND_NAME_MAX], CLI_commandCallback func);
 
 /**
  * @brief adds a new parameter to a defined command.
