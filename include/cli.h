@@ -48,6 +48,7 @@ CLI_command;
 typedef struct cli
 {
 	unsigned _size;
+	unsigned _nCommands;
 	CLI_command *_commands;
 	// TODO: history queue
 }

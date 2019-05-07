@@ -5,7 +5,7 @@
 #define COMMAND_EXISTS(cmd) ((cmd).func)
 
 /**
- * simply allocates the required memory.
+ * Simply allocates the required memory.
  */
 cli *CLI_Init(unsigned size)
 {
@@ -14,27 +14,29 @@ cli *CLI_Init(unsigned size)
 	if (handle &&
 		(handle->_commands = calloc(size, sizeof(CLI_command)))) {
 		handle->_size = size;
+		handle->_nCommands = 0;
 	}
 	
 	return handle;
 }
 
+/**
+ * Finds an empty entry in the commands array,
+ * and copies the command's details to there.
+ * Returns NULL if the array is full.
+ * 
+ * TODO: perhaps use a binary tree instead.
+ * It will be more efficient to find a command,
+ * but we won't be able to utilize the maximum size.
+ */
 CLI_command *CLI_AddCommand(cli *cli, const char name[CLI_COMMAND_NAME_MAX], CLI_commandCallback func)
 {
-	CLI_command *p = cli->_commands;
-	unsigned i = 0;
+	CLI_command *p = NULL;
 	
-	while (i < cli->_size && COMMAND_EXISTS(*p)) {
-		++p;
-		++i;
-	}
-	
-	if (i < cli->_size) {
+	if (cli->_nCommands < cli->_size) {
+		p = cli->_commands + cli->_nCommands++;
 		strncpy(p->name, name, CLI_COMMAND_NAME_MAX - 1);
 		p->func = func;
-		p->nParameters = 0;
-	} else {
-		p = NULL;
 	}
 	
 	return p;
