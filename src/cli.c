@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define COMMAND_EXISTS(cmd) ((cmd).func)
-
 /**
  * Simply allocates the required memory.
  */
@@ -11,10 +9,14 @@ cli *CLI_Init(unsigned size)
 {
 	cli *handle = malloc(sizeof(cli));
 	
-	if (handle &&
-		(handle->_commands = calloc(size, sizeof(CLI_command)))) {
-		handle->_size = size;
-		handle->_nCommands = 0;
+	if (handle) {
+		if (handle->_commands = calloc(size, sizeof(CLI_command))) {
+			handle->_size = size;
+			handle->_nCommands = 0;
+		} else {
+			free(handle);
+			handle = NULL;
+		}
 	}
 	
 	return handle;

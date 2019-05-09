@@ -51,7 +51,7 @@ CLI_command *CLI_AddCommand(cli *cli, const char name[CLI_COMMAND_NAME_MAX], CLI
  * 
  * The user can navigate previously entered commands using the arrow keys.
  * 
- * @return the entered command, saved in a malloc'ed string
+ * @return the entered command saved in a malloc'ed string, of a null pointer if the function failed
  */
 char *CLI_GetCommand(void);
 
