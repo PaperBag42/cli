@@ -5,14 +5,14 @@
 /**
  * Simply allocates the required memory.
  */
-cli *CLI_Init(unsigned size)
+cli *cli_init(unsigned size)
 {
 	cli *handle = malloc(sizeof(cli));
 	
 	if (handle) {
-		if (handle->_commands = calloc(size, sizeof(CLI_command))) {
+		if (handle->_commands = calloc(size, sizeof(cli_command))) {
 			handle->_size = size;
-			handle->_nCommands = 0;
+			handle->_ncommands = 0;
 		} else {
 			free(handle);
 			handle = NULL;
@@ -31,12 +31,12 @@ cli *CLI_Init(unsigned size)
  * It will be more efficient to find a command,
  * but we won't be able to utilize the maximum size.
  */
-CLI_command *CLI_AddCommand(cli *cli, const char name[CLI_COMMAND_NAME_MAX], CLI_commandCallback func)
+cli_command *cli_add_command(cli *cli, const char name[CLI_COMMAND_NAME_MAX], cli_command_callback func)
 {
-	CLI_command *p = NULL;
+	cli_command *p = NULL;
 	
-	if (cli->_nCommands < cli->_size) {
-		p = cli->_commands + cli->_nCommands++;
+	if (cli->_ncommands < cli->_size) {
+		p = cli->_commands + cli->_ncommands++;
 		strncpy(p->name, name, CLI_COMMAND_NAME_MAX - 1);
 		p->func = func;
 	}

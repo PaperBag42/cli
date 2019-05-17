@@ -6,12 +6,12 @@
  * and copies the parameter's details to there.
  * Returns NULL if the array is full.
  */
-CLI_parameter *CLI_AddParameter(CLI_command *command, CLI_parserCallback parser)
+cli_parameter *cli_add_parameter(cli_command *command, cli_parser_callback parser)
 {
-	CLI_parameter *p = NULL;
+	cli_parameter *p = NULL;
 	
-	if (command->nParameters < CLI_PARAMETER_NUM_MAX) {
-		p = command->parameters + command->nParameters++;
+	if (command->nparameters < CLI_PARAMETER_NUM_MAX) {
+		p = command->parameters + command->nparameters++;
 		p->parser = parser;
 	}
 	
