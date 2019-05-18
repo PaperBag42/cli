@@ -4,6 +4,7 @@
 
 /**
  * Simply allocates the required memory.
+ * Returns NULL if memory allocation failed.
  */
 cli *cli_init(unsigned size)
 {
@@ -13,6 +14,7 @@ cli *cli_init(unsigned size)
 		if (handle->_commands = calloc(size, sizeof(cli_command))) {
 			handle->_size = size;
 			handle->_ncommands = 0;
+			handle->_history = NULL;
 		} else {
 			free(handle);
 			handle = NULL;

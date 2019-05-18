@@ -6,6 +6,7 @@
 #define _CLI_H
 
 #include "command.h"
+#include "history.h"
 
 /**
  * @enum cli_error_code
@@ -22,7 +23,7 @@ typedef struct cli
 	unsigned _size;
 	unsigned _ncommands;
 	cli_command *_commands;
-	// TODO: history queue
+	_history_entry *_history;
 } cli;
 
 /**
