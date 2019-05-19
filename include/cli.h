@@ -14,8 +14,13 @@
  */
 typedef enum cli_error_code
 {
-	CLI_ERROR_OK, /**< parsed successfully, no error */
-	CLI_ERROR_CALLBACK_FAILED, /**< the callback function submitted by the application returned a non-zero value */
+	CLI_ERROR_OK,                 /**< parsed successfully, no error */
+	CLI_ERROR_OUT_OF_MEMORY,      /**< memory allocation failed */
+	CLI_ERROR_NO_COMMAND,         /**< missing command name */
+	CLI_ERROR_UNKNOWN_COMMAND,    /**< no command was found with the given name */
+	CLI_ERROR_TOO_FEW_ARGUMENTS,  /**< too few arguments were provided for the command */
+	CLI_ERROR_TOO_MANY_ARGUMENTS, /**< too many arguments were provided for the command */
+	CLI_ERROR_CALLBACK_FAILED,    /**< the callback function submitted by the application returned a non-zero value */
 } cli_error_code;
 
 typedef struct cli
