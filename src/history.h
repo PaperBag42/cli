@@ -4,7 +4,7 @@
 #ifndef _HISTORY_H
 #define _HISTORY_H
 
-#include "../include/history.h"
+#include "../include/cli/history.h"
 
 /**
  * Adds the given command to the history queue.

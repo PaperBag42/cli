@@ -4,7 +4,7 @@
 #ifndef _COMMAND_H
 #define _COMMAND_H
 
-#include "../include/command.h"
+#include "../include/cli/command.h"
 
 /**
  * Finds a command in the array by name
