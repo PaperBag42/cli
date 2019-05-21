@@ -43,7 +43,7 @@ cli *cli_init(unsigned size);
  * @brief defines a new command that the CLI can execute.
  * 
  * @param cli the CLI's handle
- * @param name the command's name as a null-terminated string
+ * @param name the command's name as a null-terminated string. The name must not include ant whitespace character.
  * @param func a callback function to execute when the command is executed
  * @return a pointer to the newly defined command's data structure, or a null pointer if the function failed
  * @see CLI_command
