@@ -51,6 +51,6 @@ cli_error_code cli_parse(cli *cli, const char *command)
 	
 	ASSERT_OR(!cmd_data->func(args), CLI_ERROR_CALLBACK_FAILED)
 	
-	free_all(buf, args);
+	free(buf);
 	return CLI_ERROR_OK;
 }

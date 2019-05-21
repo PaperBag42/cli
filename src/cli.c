@@ -1,6 +1,7 @@
 #include "../include/cli/cli.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #define SEPERATORS " \t\r\n\v\f"
 
@@ -13,7 +14,7 @@ cli *cli_init(unsigned size)
 	cli *handle = malloc(sizeof(cli));
 	
 	if (handle) {
-		if (handle->_commands = calloc(size, sizeof(cli_command))) {
+		if ((handle->_commands = calloc(size, sizeof(cli_command)))) {
 			handle->_size = size;
 			handle->_ncommands = 0;
 			handle->_history = NULL;
@@ -46,4 +47,12 @@ cli_command *cli_add_command(cli *cli, const char name[CLI_COMMAND_NAME_MAX], cl
 	}
 	
 	return p;
+}
+
+char *cli_get_command(void)
+{
+	fprintf(stderr, "Not yet implemented");
+	abort();
+	
+	return NULL;
 }
