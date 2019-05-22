@@ -1,11 +1,11 @@
 #include "../include/cli/cli.h"
+#include "parsing.h"
 #include "history.h"
 #include "command.h"
 #include <string.h>
 #include <stdbool.h>
-#include <stdlib.h>
+#include <ctype.h>
 
-#define WHITESPACE    " \t\r\n\v\f"
 #define TOK_INIT(buf) strtok((buf), WHITESPACE)
 #define TOK_NEXT()    TOK_INIT(NULL)
 
@@ -28,15 +28,19 @@
 cli_error_code cli_parse(cli *cli, const char *command)
 {
 	char *buf = NULL;
+	const size_t len = strlen(command) + 1;
 	char *token = NULL;
 	cli_command *cmd_data = NULL;
 	
 	char *args[CLI_PARAMETER_NUM_MAX + 1] = { NULL }; // extra cell for null terminator
+	char **arg = args;
 	
 	ASSERT_OR(
 		add_history_entry(&cli->_history, command) &&
-		(buf = strdup(command)),
+		(buf = malloc(len * sizeof(char))),
 		CLI_ERROR_OUT_OF_MEMORY)
+	
+	copy_lower(buf, command, len);
 	
 	ASSERT_OR(token = TOK_INIT(buf), CLI_ERROR_NO_COMMAND)
 	
@@ -44,7 +48,6 @@ cli_error_code cli_parse(cli *cli, const char *command)
 		cmd_data = find_command(cli->_commands, cli->_ncommands, token),
 		CLI_ERROR_UNKNOWN_COMMAND)
 	
-	char **arg = args;
 	for (unsigned i = cmd_data->nparameters; i; --i, ++arg) {
 		ASSERT_OR(*arg = TOK_NEXT(), CLI_ERROR_TOO_FEW_ARGUMENTS)
 	}
@@ -54,4 +57,11 @@ cli_error_code cli_parse(cli *cli, const char *command)
 	
 	free(buf);
 	return CLI_ERROR_OK;
+}
+
+void copy_lower(char *dest, const char *src, size_t len)
+{
+	for (; *src && len; ++dest, ++src, --len) {
+		*dest = tolower(*src);
+	}
 }

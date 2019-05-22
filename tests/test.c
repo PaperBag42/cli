@@ -7,7 +7,7 @@ int ret_cb(char **args)
 {
 	printf("Callback received \"%s\"\n", *args);
 	
-	return **(char **)args - '0';
+	return **args - '0';
 }
 
 int main()
@@ -18,7 +18,7 @@ int main()
 	assert(ret);
 	assert(!cli_add_command(cli, "too_many", 0, ret_cb));
 	
-	assert(CLI_ERROR_OK                 == cli_parse(cli, "ret 0  "));
+	assert(CLI_ERROR_OK                 == cli_parse(cli, "Ret 0  "));
 	assert(CLI_ERROR_NO_COMMAND         == cli_parse(cli, "       "));
 	assert(CLI_ERROR_UNKNOWN_COMMAND    == cli_parse(cli, "lol 0  "));
 	assert(CLI_ERROR_TOO_FEW_ARGUMENTS  == cli_parse(cli, "ret    "));
