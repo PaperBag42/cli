@@ -32,8 +32,8 @@ cli_error_code cli_parse(cli *cli, const char *command)
 	void *args[CLI_PARAMETER_NUM_MAX + 1] = { NULL }; // extra cell for null terminator
 	
 	ASSERT_OR(
-		!add_history_entry(&cli->_history, command) ||
-		!(buf = strdup(command)),
+		add_history_entry(&cli->_history, command) &&
+		(buf = strdup(command)),
 		CLI_ERROR_OUT_OF_MEMORY)
 	
 	ASSERT_OR(token = TOK_INIT(buf), CLI_ERROR_NO_COMMAND)
