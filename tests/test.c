@@ -1,21 +1,22 @@
 #include <cli/cli.h>
+#include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
 
-int ret_cb(void **args)
+int ret_cb(char **args)
 {
+	printf("Callback received \"%s\"\n", *args);
+	
 	return **(char **)args - '0';
 }
 
 int main()
 {
 	cli *cli = cli_init(1);
-	cli_command *ret = cli_add_command(cli, "ret", ret_cb);
+	cli_command *ret = cli_add_command(cli, "ret", 1, ret_cb);
 	
 	assert(ret);
-	cli_add_parameter(ret, NULL);
-	
-	assert(!cli_add_command(cli, "too_many", NULL));
+	assert(!cli_add_command(cli, "too_many", 0, ret_cb));
 	
 	assert(CLI_ERROR_OK                 == cli_parse(cli, "ret 0  "));
 	assert(CLI_ERROR_NO_COMMAND         == cli_parse(cli, "       "));

@@ -9,6 +9,8 @@
 #define TOK_INIT(buf) strtok((buf), WHITESPACE)
 #define TOK_NEXT()    TOK_INIT(NULL)
 
+/* An error handling macro that checks a condition,
+   and frees resources and returns an error code on failure. */
 #define ASSERT_OR(cond, code) do { \
 	if (!(cond)) {                 \
 		free(buf);                 \
@@ -29,7 +31,7 @@ cli_error_code cli_parse(cli *cli, const char *command)
 	char *token = NULL;
 	cli_command *cmd_data = NULL;
 	
-	void *args[CLI_PARAMETER_NUM_MAX + 1] = { NULL }; // extra cell for null terminator
+	char *args[CLI_PARAMETER_NUM_MAX + 1] = { NULL }; // extra cell for null terminator
 	
 	ASSERT_OR(
 		add_history_entry(&cli->_history, command) &&
@@ -42,10 +44,9 @@ cli_error_code cli_parse(cli *cli, const char *command)
 		cmd_data = find_command(cli->_commands, cli->_ncommands, token),
 		CLI_ERROR_UNKNOWN_COMMAND)
 	
-	void **arg = args;
+	char **arg = args;
 	for (unsigned i = cmd_data->nparameters; i; --i, ++arg) {
 		ASSERT_OR(*arg = TOK_NEXT(), CLI_ERROR_TOO_FEW_ARGUMENTS)
-		// TODO: parser callbacks
 	}
 	ASSERT_OR(!TOK_NEXT(), CLI_ERROR_TOO_MANY_ARGUMENTS)
 	

@@ -44,11 +44,12 @@ cli *cli_init(unsigned size);
  * 
  * @param cli the CLI's handle
  * @param name the command's name as a null-terminated string. The name must not include ant whitespace character.
+ * @param nparameters the number of parameters the command should accept
  * @param func a callback function to execute when the command is executed
  * @return a pointer to the newly defined command's data structure, or a null pointer if the function failed
  * @see CLI_command
  */
-cli_command *cli_add_command(cli *cli, const char name[CLI_COMMAND_NAME_MAX], cli_command_callback func);
+cli_command *cli_add_command(cli *cli, const char name[CLI_COMMAND_NAME_MAX], unsigned nparameters, cli_command_callback func);
 
 /**
  * @brief Reads a command line from standard input.
